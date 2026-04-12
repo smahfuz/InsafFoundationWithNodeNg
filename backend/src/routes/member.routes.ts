@@ -32,11 +32,15 @@ router.get('/:id', async (req, res) => {
 // Create a member
 router.post('/', async (req, res) => {
   try {
+    const { name, email, phone, address, joinDate } = req.body;
     const member = await prisma.member.create({
-      data: req.body
+      data: { name, email, phone, address, 
+        joinDate: joinDate ? new Date(joinDate) : undefined 
+      }
     });
     res.status(201).json(member);
   } catch (error) {
+    console.error('Create member error:', error);
     res.status(400).json({ error: 'Failed to create member' });
   }
 });
@@ -44,12 +48,20 @@ router.post('/', async (req, res) => {
 // Update a member
 router.put('/:id', async (req, res) => {
   try {
+    const { id, donations, committeeMembers, createdAt, updatedAt, ...updateData } = req.body;
+    
+    // Ensure joinDate is a Date object if present
+    if (updateData.joinDate) {
+      updateData.joinDate = new Date(updateData.joinDate);
+    }
+
     const member = await prisma.member.update({
       where: { id: Number(req.params.id) },
-      data: req.body
+      data: updateData
     });
     res.json(member);
   } catch (error) {
+    console.error('Update member error:', error);
     res.status(400).json({ error: 'Failed to update member' });
   }
 });
