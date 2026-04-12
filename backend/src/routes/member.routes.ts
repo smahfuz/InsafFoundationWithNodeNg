@@ -33,15 +33,24 @@ router.get('/:id', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const { name, email, phone, address, joinDate } = req.body;
-    const member = await prisma.member.create({
-      data: { name, email, phone, address, 
-        joinDate: joinDate ? new Date(joinDate) : undefined 
-      }
-    });
+    
+    // Normalize string fields to null if empty
+    const data = {
+      name,
+      email: email === '' ? null : email,
+      phone: phone === '' ? null : phone,
+      address: address === '' ? null : address,
+      joinDate: joinDate ? new Date(joinDate) : undefined
+    };
+
+    const member = await prisma.member.create({ data });
     res.status(201).json(member);
   } catch (error) {
     console.error('Create member error:', error);
-    res.status(400).json({ error: 'Failed to create member' });
+    res.status(400).json({ 
+      error: 'Failed to create member',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 });
 
@@ -50,7 +59,12 @@ router.put('/:id', async (req, res) => {
   try {
     const { id, donations, committeeMembers, createdAt, updatedAt, ...updateData } = req.body;
     
-    // Ensure joinDate is a Date object if present
+    // Normalize optional fields: convert empty strings to null
+    if (updateData.email === '') updateData.email = null;
+    if (updateData.phone === '') updateData.phone = null;
+    if (updateData.address === '') updateData.address = null;
+    
+    // Handle joinDate parsing
     if (updateData.joinDate) {
       updateData.joinDate = new Date(updateData.joinDate);
     }
@@ -62,7 +76,10 @@ router.put('/:id', async (req, res) => {
     res.json(member);
   } catch (error) {
     console.error('Update member error:', error);
-    res.status(400).json({ error: 'Failed to update member' });
+    res.status(400).json({ 
+      error: 'Failed to update member',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 });
 
