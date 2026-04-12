@@ -1,0 +1,15 @@
+{
+  "name": "insaf-foundation-root",
+  "version": "1.0.0",
+  "description": "Root orchestration for Insaf Foundation project",
+  "scripts": {
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "backend:dev": "cd backend && npm run dev",
+    "frontend:start": "cd frontend && npm start",
+    "start": "npx concurrently \"npm run backend:dev\" \"npm run frontend:start\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

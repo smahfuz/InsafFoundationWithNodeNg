@@ -1,0 +1,36 @@
+<div class="min-h-screen bg-gray-50 flex flex-col">
+  <!-- Navbar -->
+  <header class="bg-premiumBlue text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <svg class="h-8 w-8 text-premiumGold hidden md:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <span class="ml-3 text-xl font-bold tracking-tight">Insaf Foundation</span>
+        </div>
+        <nav class="hidden md:flex space-x-8 items-center font-medium">
+          <a routerLink="/" class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">Dashboard</a>
+          <a routerLink="/members" class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">Members</a>
+          <a routerLink="/donations" class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">Donations</a>
+          <a routerLink="/committees" class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">Committees</a>
+          <a routerLink="/news" class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">News Updates</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 min-h-[500px]">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 mt-auto">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+      <p class="text-center text-sm text-gray-500">&copy; 2026 Insaf Foundation Community. All rights reserved.</p>
+    </div>
+  </footer>
+</div>
