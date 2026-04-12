@@ -8,15 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const client_1 = require("@prisma/client");
+const prismaClient_1 = __importDefault(require("../prismaClient"));
 const router = (0, express_1.Router)();
-const prisma = new client_1.PrismaClient();
 // Get all news updates
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const news = yield prisma.newsUpdate.findMany({
+        const news = yield prismaClient_1.default.newsUpdate.findMany({
             orderBy: { publishDate: 'desc' }
         });
         res.json(news);
@@ -28,7 +30,7 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // Create a news update
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const news = yield prisma.newsUpdate.create({
+        const news = yield prismaClient_1.default.newsUpdate.create({
             data: req.body
         });
         res.status(201).json(news);
@@ -40,7 +42,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // Update a news update
 router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const news = yield prisma.newsUpdate.update({
+        const news = yield prismaClient_1.default.newsUpdate.update({
             where: { id: Number(req.params.id) },
             data: req.body
         });
@@ -53,7 +55,7 @@ router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 // Delete a news update
 router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield prisma.newsUpdate.delete({
+        yield prismaClient_1.default.newsUpdate.delete({
             where: { id: Number(req.params.id) }
         });
         res.json({ message: 'News deleted successfully' });

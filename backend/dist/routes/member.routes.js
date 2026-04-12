@@ -8,15 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const client_1 = require("@prisma/client");
+const prismaClient_1 = __importDefault(require("../prismaClient"));
 const router = (0, express_1.Router)();
-const prisma = new client_1.PrismaClient();
 // Get all members with their donations
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const members = yield prisma.member.findMany({
+        const members = yield prismaClient_1.default.member.findMany({
             include: { donations: true, committeeMembers: { include: { committee: true } } }
         });
         res.json(members);
@@ -28,7 +30,7 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // Get a single member
 router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const member = yield prisma.member.findUnique({
+        const member = yield prismaClient_1.default.member.findUnique({
             where: { id: Number(req.params.id) },
             include: { donations: true }
         });
@@ -44,7 +46,7 @@ router.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 // Create a member
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const member = yield prisma.member.create({
+        const member = yield prismaClient_1.default.member.create({
             data: req.body
         });
         res.status(201).json(member);
@@ -56,7 +58,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // Update a member
 router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const member = yield prisma.member.update({
+        const member = yield prismaClient_1.default.member.update({
             where: { id: Number(req.params.id) },
             data: req.body
         });
@@ -69,7 +71,7 @@ router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 // Delete a member
 router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield prisma.member.delete({
+        yield prismaClient_1.default.member.delete({
             where: { id: Number(req.params.id) }
         });
         res.json({ message: 'Member deleted successfully' });

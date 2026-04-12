@@ -8,15 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const client_1 = require("@prisma/client");
+const prismaClient_1 = __importDefault(require("../prismaClient"));
 const router = (0, express_1.Router)();
-const prisma = new client_1.PrismaClient();
 // Get all donations
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const donations = yield prisma.donation.findMany({
+        const donations = yield prismaClient_1.default.donation.findMany({
             include: { member: { select: { name: true, email: true } } },
             orderBy: { date: 'desc' }
         });
@@ -30,7 +32,7 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // req.body expects amount and memberId
-        const donation = yield prisma.donation.create({
+        const donation = yield prismaClient_1.default.donation.create({
             data: {
                 amount: Number(req.body.amount),
                 memberId: Number(req.body.memberId),
@@ -46,7 +48,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // Delete a donation
 router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield prisma.donation.delete({
+        yield prismaClient_1.default.donation.delete({
             where: { id: Number(req.params.id) }
         });
         res.json({ message: 'Donation deleted successfully' });

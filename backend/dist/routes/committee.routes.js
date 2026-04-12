@@ -8,15 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const client_1 = require("@prisma/client");
+const prismaClient_1 = __importDefault(require("../prismaClient"));
 const router = (0, express_1.Router)();
-const prisma = new client_1.PrismaClient();
 // Get all committees
 router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const committees = yield prisma.committee.findMany({
+        const committees = yield prismaClient_1.default.committee.findMany({
             include: {
                 committeeMembers: {
                     include: { member: { select: { name: true, email: true, phone: true } } }
@@ -33,7 +35,7 @@ router.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // Create a new committee year
 router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const committee = yield prisma.committee.create({
+        const committee = yield prismaClient_1.default.committee.create({
             data: { year: Number(req.body.year), isActive: req.body.isActive || false }
         });
         res.status(201).json(committee);
@@ -45,7 +47,7 @@ router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // Add member to committee
 router.post('/members', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const committeeMember = yield prisma.committeeMember.create({
+        const committeeMember = yield prismaClient_1.default.committeeMember.create({
             data: {
                 role: req.body.role,
                 memberId: Number(req.body.memberId),
@@ -61,7 +63,7 @@ router.post('/members', (req, res) => __awaiter(void 0, void 0, void 0, function
 // Remove member from committee
 router.delete('/members/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield prisma.committeeMember.delete({
+        yield prismaClient_1.default.committeeMember.delete({
             where: { id: Number(req.params.id) }
         });
         res.json({ message: 'Member removed from committee' });
