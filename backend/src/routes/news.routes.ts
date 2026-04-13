@@ -10,8 +10,13 @@ router.get('/', async (req, res) => {
       orderBy: { publishDate: 'desc' }
     });
     res.json(news);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch news' });
+  } catch (error: any) {
+    console.error('FETCH NEWS ERROR:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch news',
+      details: error.message || 'Unknown error',
+      code: error.code
+    });
   }
 });
 
