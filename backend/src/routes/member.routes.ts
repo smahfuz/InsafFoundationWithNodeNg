@@ -31,6 +31,7 @@ router.get('/:id', async (req, res) => {
 
 // Create a member
 router.post('/', async (req, res) => {
+  console.log('POST /api/members request body:', req.body);
   try {
     const { name, email, phone, address, joinDate } = req.body;
     
@@ -43,13 +44,16 @@ router.post('/', async (req, res) => {
       joinDate: joinDate ? new Date(joinDate) : undefined
     };
 
+    console.log('Prisma create data:', data);
     const member = await prisma.member.create({ data });
+    console.log('Member created successfully:', member.id);
     res.status(201).json(member);
   } catch (error) {
-    console.error('Create member error:', error);
-    res.status(400).json({ 
+    console.error('CREATE MEMBER ERROR:', error);
+    res.status(500).json({ 
       error: 'Failed to create member',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : 'Unknown error',
+      code: (error as any).code // Prisma error code if available
     });
   }
 });

@@ -28,7 +28,11 @@ router.post('/', async (req, res) => {
     });
     res.status(201).json(committee);
   } catch (error) {
-    res.status(400).json({ error: 'Failed to create committee' });
+    console.error('CREATE COMMITTEE ERROR:', error);
+    res.status(500).json({ 
+      error: 'Failed to create committee',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 });
 

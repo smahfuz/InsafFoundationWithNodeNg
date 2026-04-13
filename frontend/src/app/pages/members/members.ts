@@ -50,6 +50,10 @@ export class Members implements OnInit {
         next: () => {
           this.loadMembers();
           this.closeModal();
+        },
+        error: (err) => {
+          console.error('Error updating member', err);
+          alert('Failed to update member. Please check if the backend is connected to the database.');
         }
       });
     } else {
@@ -57,6 +61,10 @@ export class Members implements OnInit {
         next: () => {
           this.loadMembers();
           this.closeModal();
+        },
+        error: (err) => {
+          console.error('Error creating member', err);
+          alert('Failed to create member. ' + (err.error?.details || 'Please check your connection.'));
         }
       });
     }
@@ -65,7 +73,11 @@ export class Members implements OnInit {
   deleteMember(id?: number): void {
     if (id && confirm('Are you sure you want to delete this member?')) {
       this.memberService.deleteMember(id).subscribe({
-        next: () => this.loadMembers()
+        next: () => this.loadMembers(),
+        error: (err) => {
+          console.error('Error deleting member', err);
+          alert('Failed to delete member.');
+        }
       });
     }
   }

@@ -23,7 +23,11 @@ router.post('/', async (req, res) => {
     });
     res.status(201).json(news);
   } catch (error) {
-    res.status(400).json({ error: 'Failed to create news update' });
+    console.error('CREATE NEWS ERROR:', error);
+    res.status(500).json({ 
+      error: 'Failed to create news update',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 });
 

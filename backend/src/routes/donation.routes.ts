@@ -29,7 +29,11 @@ router.post('/', async (req, res) => {
     });
     res.status(201).json(donation);
   } catch (error) {
-    res.status(400).json({ error: 'Failed to record donation' });
+    console.error('CREATE DONATION ERROR:', error);
+    res.status(500).json({ 
+      error: 'Failed to record donation',
+      details: error instanceof Error ? error.message : 'Unknown error'
+    });
   }
 });
 
