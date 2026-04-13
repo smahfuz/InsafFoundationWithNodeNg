@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 export interface NewsUpdate {
   id?: number;
   title: string;
+  category?: string | null;
   content: string;
   image?: string | null;
   publishDate?: string;
