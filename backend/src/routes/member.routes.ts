@@ -10,8 +10,13 @@ router.get('/', async (req, res) => {
       include: { donations: true, committeeMembers: { include: { committee: true } } }
     });
     res.json(members);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch members' });
+  } catch (error: any) {
+    console.error('FETCH MEMBERS ERROR:', error);
+    res.status(500).json({ 
+      error: 'Failed to fetch members',
+      details: error.message || 'Unknown error',
+      code: error.code
+    });
   }
 });
 
