@@ -35,25 +35,35 @@ router.post('/', async (req, res) => {
   try {
     const { name, email, phone, address, joinDate } = req.body;
     
-    // Normalize string fields to null if empty
-    const data = {
+    // Build data object dynamically to avoid undefined fields
+    const data: any = {
       name,
       email: email === '' ? null : email,
       phone: phone === '' ? null : phone,
       address: address === '' ? null : address,
-      joinDate: joinDate ? new Date(joinDate) : undefined
     };
+
+    if (joinDate) {
+      data.joinDate = new Date(joinDate);
+    }
 
     console.log('Prisma create data:', data);
     const member = await prisma.member.create({ data });
     console.log('Member created successfully:', member.id);
     res.status(201).json(member);
-  } catch (error) {
+  } catch (error: any) {
     console.error('CREATE MEMBER ERROR:', error);
-    res.status(500).json({ 
+    
+    // Provide a very detailed error message for the frontend
+    let errorMessage = error.message || 'Unknown error';
+    if (error.code === 'P2002') {
+      errorMessage = `Unique constraint failed on the field: ${error.meta?.target}`;
+    }
+
+    res.status(400).json({ 
       error: 'Failed to create member',
-      details: error instanceof Error ? error.message : 'Unknown error',
-      code: (error as any).code // Prisma error code if available
+      details: errorMessage,
+      code: error.code
     });
   }
 });
