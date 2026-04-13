@@ -64,7 +64,8 @@ export class Members implements OnInit {
         },
         error: (err) => {
           console.error('Error creating member', err);
-          alert('Failed to create member. ' + (err.error?.details || 'Please check your connection.'));
+          const fullError = err.error?.details || JSON.stringify(err.error) || 'Unknown Error';
+          alert('Failed to create member.\n\nDetails: ' + fullError);
         }
       });
     }
