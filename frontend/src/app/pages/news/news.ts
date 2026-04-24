@@ -30,10 +30,10 @@ export class News implements OnInit {
   loadStaticNews(): void {
     this.newsList = [
       {
-        title: 'বন্যা কবলিত এলাকার জন্য ফান্ড কালেকশন',
+        title: 'এক হিন্দু গরীব ভাইএর দোকান মেরামতে সহায়তা',
         content: '',
         image: 'poor-people-er-shop-making.jpg',
-        category: 'ত্রাণ বিতরণ',
+        category: 'দোকান মেরামত',
         publishDate: new Date(),
       },
       {
