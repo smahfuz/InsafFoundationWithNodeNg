@@ -1,29 +1,43 @@
 <div class="min-h-screen bg-gray-50 flex flex-col">
   <!-- Navbar -->
   <header class="bg-premiumBlue text-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between items-center h-16">
+
+        <!-- Logo -->
         <div class="flex items-center">
-          <svg class="h-8 w-8 text-premiumGold hidden md:block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-          <span class="ml-3 text-xl font-bold tracking-tight"> Bishnupur Insaf Foundation</span>
+          <span class="text-lg font-bold">Bishnupur Insaf Foundation</span>
         </div>
-        <nav class="hidden md:flex space-x-8 items-center font-medium">
-          <a routerLink="/"
-            class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">Dashboard</a>
-          <a routerLink="/members"
-            class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">Members</a>
-          <a routerLink="/donations"
-            class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">Donations</a>
-          <a routerLink="/committees"
-            class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">Committees</a>
-          <a routerLink="/news"
-            class="text-gray-100 hover:text-white hover:bg-premiumBlue/80 px-3 py-2 rounded-md transition-colors duration-200 cursor-pointer">News
-            Updates</a>
+
+        <!-- Desktop Menu -->
+        <nav class="hidden md:flex space-x-6 font-medium">
+          <a routerLink="/">Dashboard</a>
+          <a routerLink="/members">Members</a>
+          <a routerLink="/donations">Donations</a>
+          <a routerLink="/committees">Committees</a>
+          <a routerLink="/news">News</a>
         </nav>
+
+        <!-- Hamburger Button -->
+        <button (click)="isOpen = !isOpen" class="md:hidden focus:outline-none">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path *ngIf="!isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16" />
+            <path *ngIf="isOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
+
+      <!-- Mobile Menu -->
+      <div *ngIf="isOpen" class="md:hidden mt-2 space-y-2 pb-4">
+        <a routerLink="/" class="block px-3 py-2">Dashboard</a>
+        <a routerLink="/members" class="block px-3 py-2">Members</a>
+        <a routerLink="/donations" class="block px-3 py-2">Donations</a>
+        <a routerLink="/committees" class="block px-3 py-2">Committees</a>
+        <a routerLink="/news" class="block px-3 py-2">News</a>
+      </div>
+
     </div>
   </header>
 
